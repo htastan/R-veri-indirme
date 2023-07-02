@@ -1,0 +1,374 @@
+---
+title: "R ile Çevrimiçi Veri İndirme"
+subtitle: "" 
+author: 
+  name: "Prof. Dr. Hüseyin Taştan"
+  affiliation: "Yıldız Teknik Üniversitesi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    number_sections: true
+    theme: lumen
+    highlight: haddock 
+    # code_folding: show
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    keep_md: true
+---
+<style type="text/css"> 
+body{
+  background-color: #FAFAFA;
+  font-size: 18px;
+  line-height: 1.8;
+}
+code.r{
+  font-size: 12pt;
+}
+</style>
+<br>
+
+```{r setup, include=FALSE}
+# knitr::opts_chunk$set(echo = TRUE, results = 'asis', fig.show = 'asis')
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+Bu dokümanda R programı için yazılmış veri indirme paketleri tanıtılmıştır. Bazı çevrimiçi veri tabanları kişisel API oluşturulmasını gerektirmektedir. 
+
+# Finansal Veriler
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+## `{quantmod}` Paketi  
+
+(Quantitative Financial Modelling & Trading Framework for R)
+
+Websitesi: [https://www.quantmod.com/](https://www.quantmod.com/)
+
+```{r}
+# install.packages("quantmod")
+library(quantmod)
+```
+
+**ÖRNEK**: Apple hisse senedinin günlük verilerini 01-01-2018-24-03-2023 arasını kapsayacak şekilde indirelim: 
+```{r}
+# yil-ay-gün
+getSymbols("AAPL", from='2018-01-01',to='2023-03-24')
+```
+
+`AAPL` bir `xts` nesnesi olarak tanımlıdır.
+```{r}
+class(AAPL)
+```
+
+```{r}
+# APPLE hisselerinin günlük kapanış fiyatları
+plot(AAPL$AAPL.Close)
+```
+
+`quantmod:ChartSeries()` fonksiyonu ile görselleştirme: 
+```{r}
+chartSeries(AAPL,
+            type="line",
+            theme=chartTheme('white'))
+```
+
+Sadece 2020 yılı: 
+```{r}
+chartSeries(AAPL,
+            type="line",
+            subset='2020',
+            theme=chartTheme('white'))
+```
+
+```{r}
+chartSeries(AAPL,
+            type="bar", 
+            subset="2021",
+            theme=chartTheme('white'))
+```
+
+
+Candle stick plot: 
+```{r}
+chartSeries(AAPL,
+            type="candlesticks", 
+            subset="2021-08",
+            theme=chartTheme('white'))
+```
+
+**Örnek**: Google hisselerinin günlük getiri oranları hesaplayarak grafiğini çizelim: 
+```{r}
+# GOOGLE hissesinin getiri oranı
+library(quantmod)
+getSymbols("GOOG")  
+google_getiri <- diff(log(GOOG$GOOG.Adjusted)) # log getiri  oranı
+chartSeries(google_getiri, theme="white")
+```
+
+**Örnek**: Bitcoin günlük fiyatlar: 
+```{r}
+getSymbols("BTC-USD")
+```
+```{r}
+chartSeries(`BTC-USD`)
+```
+
+
+**Örnek**: BIST100 Endeksi (Son dönem verileri güncellenmiyor)
+```{r}
+# BIST100 endeksinin verileri Yahoo Finansta eksik: 
+quantmod::getSymbols("^XU100", from='2018-01-01',to='2023-03-24')
+```
+
+
+## `{tidyquant}` Paketi
+
+Finansal verilerin indirilmesi ve analizi için kullanabileceğimiz başka bir paket `{tidyquant}` paketidir. Bu paket `{tidyverse}` paketleri ile uyumlu çalışacak şekilde geliştirilmiştir. 
+
+Daha fazla detay için bkz. [https://business-science.github.io/tidyquant/](https://business-science.github.io/tidyquant/)
+
+```{r message=FALSE, warning=FALSE}
+# install.packages("tidyquant")
+library(tidyquant)
+```
+
+```{r}
+# Microsoft hisse fiyatları 
+# similar to quantmod::getSymbols()
+microsoft <- tq_get(x = "MSFT")
+head(microsoft)
+# data is in tibble format
+```
+
+
+```{r}
+# tidyquant::tq_get() is a wrapper for quantmod::getSymbols() but provides 
+# additional data resources such as crypto assets
+tq_get_options()
+```
+
+Piyasa bilgilerini indirmek için: 
+```{r}
+tq_exchange_options()
+```
+
+Örneğin
+```{r}
+# nyse <- tq_exchange("NYSE")
+# head(nyse)
+```
+
+```{r}
+# endeks verileri için, 
+tq_index_options()
+```
+
+
+```{r}
+# örneğin
+sp500 <- tq_index("SP500")
+```
+
+```{r}
+# SP500 içindeki hisse fiyatları
+tq_index("SP500") %>%
+    slice(1:3) %>% # sadece ilk 3 hisse
+    tq_get(get = "stock.prices")
+```
+
+## `{Quandl}` Paketi
+
+Visit [https://data.nasdaq.com/](https://data.nasdaq.com/). 
+```{r}
+# install.packages("Quandl")
+library(Quandl)
+```
+
+Örnekler için bkz. 
+
+[https://github.com/quandl/quandl-r](https://github.com/quandl/quandl-r). 
+
+ve 
+
+[https://data.nasdaq.com/tools/r](https://data.nasdaq.com/tools/r)
+
+API anahtarı olmadan veri indirmenin günlük sınırı vardır. Bu nedenle API anahtarı girilmesi tavsiye edilir.  
+
+
+# Dünya Bankası Verileri 
+
+## `{WDI}` Paketi
+
+Kullanım klavuzu ve örnekler için bkz. [https://github.com/vincentarelbundock/WDI](https://github.com/vincentarelbundock/WDI)
+
+```{r}
+# install.packages("WDI")
+library(WDI)
+```
+
+**Örnek** Meksika, Türkiye, G. Kore, Malezya, ve ABD için kişi başına gayrisafi yurt içi hasıla (2015 sabit USD fiyatları ile): 
+```{r}
+gdppc = WDI(indicator = 'NY.GDP.PCAP.KD', 
+            country = c('MEX','TUR', 'KOR', 'MYS', 'USA'), 
+            start = 1960, 
+            end = 2021)
+head(gdppc)
+```
+
+```{r}
+gdppc |> ggplot(aes(year, NY.GDP.PCAP.KD, color = country)) + 
+  geom_line() +
+  scale_x_continuous(breaks = seq(1960,2020,10)) + 
+  labs(x = "Year", 
+       y = "GDP per capita") 
+```
+
+
+## `{wbstats}` Paketi
+
+Kullanım klavuzu ve örnekler için bkz. [https://cran.r-project.org/web/packages/wbstats/vignettes/wbstats.html](https://cran.r-project.org/web/packages/wbstats/vignettes/wbstats.html)
+
+```{r}
+# install.packages("wbstats")
+library(wbstats)
+```
+
+```{r}
+pop_data <- wb_data("SP.POP.TOTL", start_date = 2000, end_date = 2002)
+head(pop_data)
+```
+
+```{r}
+# Örnek: NÜfus ve GDP verileri, tüm ülkeler, 1980-2021
+my_indicators = c("pop" = "SP.POP.TOTL",
+                  "gdp" = "NY.GDP.MKTP.CD")
+
+pop_gdp <- wb_data(my_indicators, start_date = 1980, end_date = 2021)
+head(pop_gdp)
+```
+
+
+
+# Penn World Tables 
+
+Yaygın olarak kullanılan ülkeler arası başka bir veri tabanı Penn World Tables'dır. Son sürümü için bkz. [https://www.rug.nl/ggdc/productivity/pwt/?lang=en](https://www.rug.nl/ggdc/productivity/pwt/?lang=en)
+
+## `{pwt}` Paketi 
+
+CRAN websitesi için bkz. [https://cran.r-project.org/web/packages/pwt10/index.html](https://cran.r-project.org/web/packages/pwt10/index.html)
+
+En son versiyon: pwt10.0, 
+```{r}
+# install.packages("pwt10")
+library(pwt10)
+data(pwt10.0)
+# değişkenlerin tanımları için bkz. 
+# ?pwt10.0
+```
+
+```{r}
+pwt10.0 |> filter(country=="Turkey") |> 
+  ggplot(aes(year, hc)) +
+  geom_line() +
+  labs(y = "Human Capital")
+```
+
+
+
+# Federal Reserve Bank of St. Louis Veri Tabanı: FRED
+
+Özellikle ABD verileri için zengin bir veri kaynağı sunmaktadır. Ayrıca çok sayıda ülke verisi de bulunmaktadır. FRED websitesi için bkz. [https://fred.stlouisfed.org/](https://fred.stlouisfed.org/)
+
+FRED'den veri indirmek için `quantmod` paketi kullanılabilir. Ayrıca geliştirilmiş paketler de bulunmaktadır. 
+
+## `{fredr}` Paketi
+
+Kullanıma klavuzu için bkz.[http://sboysel.github.io/fredr/articles/fredr.html](http://sboysel.github.io/fredr/articles/fredr.html) ve 
+[https://sboysel.github.io/fredr/](https://sboysel.github.io/fredr/)
+
+```{r}
+# install.packages("fredr")
+library(fredr)
+```
+
+Paketi kullanabilmek için FRED'den API KEY alınması gerekmektedir. Detaylar için bkz. [https://fred.stlouisfed.org/docs/api/api_key.html](https://fred.stlouisfed.org/docs/api/api_key.html)
+
+
+# Food and Agricultural Organization (FAO) Statistics 
+
+## `{FAOSTAT}` Paketi
+
+For more information visit 
+
+[https://gitlab.com/paulrougieux/faostatpackage](https://gitlab.com/paulrougieux/faostatpackage)
+
+and 
+
+[https://cran.r-project.org/web/packages/FAOSTAT/index.html](https://cran.r-project.org/web/packages/FAOSTAT/index.html)
+
+For bulk download: 
+[https://github.com/muuankarski/faobulk](https://github.com/muuankarski/faobulk)
+
+For vignettes: 
+```{r eval=FALSE, include=TRUE}
+vignette(topic = "FAOSTAT") 
+```
+
+
+```{r}
+library(FAOSTAT)
+```
+
+
+# Eurostat Open Data 
+
+## `{eurostat}` Paketi
+
+
+[https://cran.r-project.org/web/packages/eurostat/index.html](https://cran.r-project.org/web/packages/eurostat/index.html)
+
+[https://ropengov.github.io/eurostat/articles/eurostat_tutorial.html](https://ropengov.github.io/eurostat/articles/eurostat_tutorial.html)
+
+```{r}
+library(eurostat)
+```
+
+
+# OECD Data 
+
+## `{OECD}` Paketi
+
+
+[https://cran.r-project.org/web/packages/OECD/index.html](https://cran.r-project.org/web/packages/OECD/index.html)
+
+
+[https://github.com/expersso/OECD](https://github.com/expersso/OECD)
+
+```{r}
+library(OECD)
+```
+
+
+
+# IMF Data 
+
+## `{IMFData}` Paketi
+
+[https://github.com/mingjerli/IMFData](https://github.com/mingjerli/IMFData)
+
+
+```{r eval=FALSE, include=TRUE}
+devtools::install_github('mingjerli/IMFData')
+```
+
+
+
+
+
+
+<br>
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
