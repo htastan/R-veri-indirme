@@ -4,7 +4,7 @@ subtitle: ""
 author: 
   name: "Prof. Dr. Hüseyin Taştan"
   affiliation: "Yıldız Teknik Üniversitesi"
-date: "03 July 2023"
+date: "08 February 2024"
 output: 
   html_document:
     number_sections: true
@@ -262,12 +262,12 @@ head(microsoft)
 ## # A tibble: 6 × 8
 ##   symbol date        open  high   low close   volume adjusted
 ##   <chr>  <date>     <dbl> <dbl> <dbl> <dbl>    <dbl>    <dbl>
-## 1 MSFT   2013-01-02  27.2  27.7  27.1  27.6 52899300     22.7
-## 2 MSFT   2013-01-03  27.6  27.6  27.2  27.2 48294400     22.4
-## 3 MSFT   2013-01-04  27.3  27.3  26.7  26.7 52521100     21.9
-## 4 MSFT   2013-01-07  26.8  26.9  26.6  26.7 37110400     21.9
-## 5 MSFT   2013-01-08  26.8  26.8  26.5  26.5 44703100     21.8
-## 6 MSFT   2013-01-09  26.7  26.8  26.6  26.7 49047900     21.9
+## 1 MSFT   2014-01-02  37.3  37.4  37.1  37.2 30632200     31.3
+## 2 MSFT   2014-01-03  37.2  37.2  36.6  36.9 31134800     31.1
+## 3 MSFT   2014-01-06  36.8  36.9  36.1  36.1 43603700     30.4
+## 4 MSFT   2014-01-07  36.3  36.5  36.2  36.4 35802800     30.7
+## 5 MSFT   2014-01-08  36    36.1  35.6  35.8 59971700     30.1
+## 6 MSFT   2014-01-09  35.9  35.9  35.4  35.5 36516300     29.9
 ```
 
 ```r
@@ -341,20 +341,20 @@ tq_index("SP500") %>%
 ```
 
 ```
-## # A tibble: 7,926 × 15
-##    symbol company   identifier sedol   weight sector shares_held local_currency
-##    <chr>  <chr>     <chr>      <chr>    <dbl> <chr>        <dbl> <chr>         
-##  1 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  2 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  3 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  4 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  5 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  6 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  7 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  8 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-##  9 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-## 10 AAPL   APPLE INC 037833100  2046251 0.0761 -        168174171 USD           
-## # ℹ 7,916 more rows
+## # A tibble: 7,626 × 15
+##    symbol company      identifier sedol weight sector shares_held local_currency
+##    <chr>  <chr>        <chr>      <chr>  <dbl> <chr>        <dbl> <chr>         
+##  1 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  2 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  3 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  4 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  5 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  6 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  7 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  8 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+##  9 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+## 10 MSFT   MICROSOFT C… 594918104  2588… 0.0734 -         85568020 USD           
+## # ℹ 7,616 more rows
 ## # ℹ 7 more variables: date <date>, open <dbl>, high <dbl>, low <dbl>,
 ## #   close <dbl>, volume <dbl>, adjusted <dbl>
 ```
@@ -403,12 +403,12 @@ head(gdppc)
 
 ```
 ##       country iso2c iso3c year NY.GDP.PCAP.KD
-## 1 Korea, Rep.    KR   KOR 2021       32730.65
-## 2 Korea, Rep.    KR   KOR 2020       31372.47
-## 3 Korea, Rep.    KR   KOR 2019       31640.21
-## 4 Korea, Rep.    KR   KOR 2018       31053.64
-## 5 Korea, Rep.    KR   KOR 2017       30307.40
-## 6 Korea, Rep.    KR   KOR 2016       29461.78
+## 1 Korea, Rep.    KR   KOR 2021       32786.69
+## 2 Korea, Rep.    KR   KOR 2020       31378.16
+## 3 Korea, Rep.    KR   KOR 2019       31645.95
+## 4 Korea, Rep.    KR   KOR 2018       31059.27
+## 5 Korea, Rep.    KR   KOR 2017       30312.89
+## 6 Korea, Rep.    KR   KOR 2016       29467.12
 ```
 
 
@@ -443,12 +443,12 @@ head(pop_data)
 ## # A tibble: 6 × 9
 ##   iso2c iso3c country    date SP.POP.TOTL unit  obs_status footnote last_updated
 ##   <chr> <chr> <chr>     <dbl>       <dbl> <chr> <chr>      <chr>    <date>      
-## 1 AW    ABW   Aruba      2000       89101 <NA>  <NA>       <NA>     2023-06-29  
-## 2 AW    ABW   Aruba      2001       90691 <NA>  <NA>       <NA>     2023-06-29  
-## 3 AW    ABW   Aruba      2002       91781 <NA>  <NA>       <NA>     2023-06-29  
-## 4 AF    AFG   Afghanis…  2000    19542982 <NA>  <NA>       <NA>     2023-06-29  
-## 5 AF    AFG   Afghanis…  2001    19688632 <NA>  <NA>       <NA>     2023-06-29  
-## 6 AF    AFG   Afghanis…  2002    21000256 <NA>  <NA>       <NA>     2023-06-29
+## 1 AW    ABW   Aruba      2000       89101 <NA>  <NA>       <NA>     2023-12-18  
+## 2 AW    ABW   Aruba      2001       90691 <NA>  <NA>       <NA>     2023-12-18  
+## 3 AW    ABW   Aruba      2002       91781 <NA>  <NA>       <NA>     2023-12-18  
+## 4 AF    AFG   Afghanis…  2000    19542982 <NA>  <NA>       <NA>     2023-12-18  
+## 5 AF    AFG   Afghanis…  2001    19688632 <NA>  <NA>       <NA>     2023-12-18  
+## 6 AF    AFG   Afghanis…  2002    21000256 <NA>  <NA>       <NA>     2023-12-18
 ```
 
 
@@ -580,12 +580,24 @@ toc <- get_eurostat_toc()
 HPI <- get_eurostat("ei_hppi_q", time_format = "date")
 ```
 
+```
+## Dataset query already saved in cache_list.json...
+```
+
+```
+## Reading cache file C:\Users\hntas\AppData\Local\Temp\Rtmpiw8JZg/eurostat/efa8ca5cb67bea1b67a5d1922942953d.rds
+```
+
+```
+## Table  ei_hppi_q  read from cache file:  C:\Users\hntas\AppData\Local\Temp\Rtmpiw8JZg/eurostat/efa8ca5cb67bea1b67a5d1922942953d.rds
+```
+
 
 ```r
 # TR verileri 
 tr_hpi <- HPI |> filter(unit=="I15_NSA", geo=="TR") |> 
-  select(time, values) |> 
-  rename(çeyrek = time,
+  select(TIME_PERIOD, values) |> 
+  rename(çeyrek = TIME_PERIOD,
          KFI = values)
 # plot
 tr_hpi |> ggplot(aes(çeyrek, KFI)) + 
@@ -637,6 +649,67 @@ library(OECD)
 ```r
 devtools::install_github('mingjerli/IMFData')
 ```
+
+
+# Kripto varlık fiyatları 
+
+## `{crypto2}` Paketi
+
+Bu paket <https://coinmarketcap.com> sitesinden kripto varlık fiyatlarını indirmek için tasarlanmıştır. Daha fazla bilgi ve örnekler için bkz. 
+
+[https://github.com/sstoeckl/crypto2](https://github.com/sstoeckl/crypto2)
+
+
+```r
+library(tidyverse)
+library(crypto2)
+coins <- crypto_list(only_active=TRUE)
+head(coins)
+```
+
+```
+## # A tibble: 6 × 8
+##      id  rank name      symbol slug      is_active first_historical_data
+##   <int> <int> <chr>     <chr>  <chr>         <int> <date>               
+## 1     1     1 Bitcoin   BTC    bitcoin           1 2010-07-13           
+## 2     2    19 Litecoin  LTC    litecoin          1 2013-04-28           
+## 3     3  1092 Namecoin  NMC    namecoin          1 2013-04-28           
+## 4     4  7501 Terracoin TRC    terracoin         1 2013-04-28           
+## 5     5   960 Peercoin  PPC    peercoin          1 2013-04-28           
+## 6     6  6204 Novacoin  NVC    novacoin          1 2013-04-28           
+## # ℹ 1 more variable: last_historical_data <date>
+```
+
+
+```r
+coin_data <- crypto_history(coins, limit=3, start_date="20220101", end_date="20240207", finalWait=FALSE)
+```
+
+```
+## ❯ Scraping historical crypto data
+```
+
+```
+## 
+```
+
+```
+## ❯ Processing historical crypto data
+```
+
+```
+## 
+```
+
+
+```r
+coin_data |> filter(symbol == "BTC") |> 
+  ggplot(aes(timestamp, close)) +
+  geom_line() +
+  labs(y="Bitcoin kapanış fiyatı")
+```
+
+![](R_veri_paketleri_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
 
 

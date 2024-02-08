@@ -351,8 +351,8 @@ HPI <- get_eurostat("ei_hppi_q", time_format = "date")
 ```{r}
 # TR verileri 
 tr_hpi <- HPI |> filter(unit=="I15_NSA", geo=="TR") |> 
-  select(time, values) |> 
-  rename(çeyrek = time,
+  select(TIME_PERIOD, values) |> 
+  rename(çeyrek = TIME_PERIOD,
          KFI = values)
 # plot
 tr_hpi |> ggplot(aes(çeyrek, KFI)) + 
@@ -388,6 +388,33 @@ library(OECD)
 
 ```{r eval=FALSE, include=TRUE}
 devtools::install_github('mingjerli/IMFData')
+```
+
+
+# Kripto varlık fiyatları 
+
+## `{crypto2}` Paketi
+
+Bu paket <https://coinmarketcap.com> sitesinden kripto varlık fiyatlarını indirmek için tasarlanmıştır. Daha fazla bilgi ve örnekler için bkz. 
+
+[https://github.com/sstoeckl/crypto2](https://github.com/sstoeckl/crypto2)
+
+```{r}
+library(tidyverse)
+library(crypto2)
+coins <- crypto_list(only_active=TRUE)
+head(coins)
+```
+
+```{r}
+coin_data <- crypto_history(coins, limit=3, start_date="20220101", end_date="20240207", finalWait=FALSE)
+```
+
+```{r}
+coin_data |> filter(symbol == "BTC") |> 
+  ggplot(aes(timestamp, close)) +
+  geom_line() +
+  labs(y="Bitcoin kapanış fiyatı")
 ```
 
 
